@@ -10,8 +10,8 @@ module.exports = function watch(gulp, plugins) {
 		gulp.watch('src/maps/**/*').on('change', plugins.browserSync.reload);
 	}
 
-	gulp.task('watch', () => {
-		series('browserSync', watchTargets);
+	gulp.task('watch', (callback) => {
+		series('browserSync', watchTargets, callback);
 	});
 
 	gulp.task('observe', () => {

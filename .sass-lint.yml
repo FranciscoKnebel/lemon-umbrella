@@ -2,6 +2,8 @@ options:
   formatter: stylish
 files:
   include: 'src/**/*.s+(a|c)ss'
+  ignore:
+    - 'src/sass/helpers/_normalize.scss'
 rules:
   # Extends
   extends-before-mixins: 1

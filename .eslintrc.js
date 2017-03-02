@@ -8,7 +8,8 @@ module.exports = {
   "env": {
     "browser": true,
     "node": true,
-		"jquery": true
+		"jquery": true,
+		"commonjs": true,
   },
   "rules": {
     "indent": [2, "tab"],

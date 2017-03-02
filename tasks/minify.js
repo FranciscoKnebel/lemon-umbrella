@@ -13,29 +13,24 @@ module.exports = function minify(gulp, plugins) {
 				.on('error', plugins.util.log)
 				.pipe(plugins.jsbeautifier())
 				.on('error', plugins.util.log)
-				.pipe(gulp.dest('dist'))
-				.on('error', plugins.util.log)
+				// .pipe(gulp.dest('src/game/dist'))
 				.pipe(plugins.cssmin())
 				.on('error', plugins.util.log)
-				.pipe(plugins.rename({
+				/* .pipe(plugins.rename({
 					suffix: '.min',
-				}))
-				.pipe(gulp.dest('docs'))
-				.pipe(gulp.dest('dist'))
-				.pipe(plugins.gzip())
-				.pipe(gulp.dest('dist'))
-				.on('error', plugins.util.log)
+				})) */
+				.pipe(gulp.dest('src/game/dist'))
 				.pipe(plugins.browserSync.stream())
 	);
 
 	gulp.task('minify-js', () =>
-		gulp.src('src/js/**/*.js')
+		gulp.src('src/game/scripts/**/*.js')
 				.pipe(plugins.plumber())
 				.pipe(plugins.babel({
 					presets: ['es2015'],
 				}))
-				.pipe(gulp.dest('dist'))
-				.pipe(plugins.uglify())
+				.pipe(gulp.dest('src/game/dist/scripts'))
+				/* .pipe(plugins.uglify())
 				.pipe(plugins.optimizeJs())
 				.pipe(plugins.rename({
 					suffix: '.min',
@@ -43,7 +38,7 @@ module.exports = function minify(gulp, plugins) {
 				.pipe(gulp.dest('docs'))
 				.pipe(gulp.dest('dist'))
 				.pipe(plugins.gzip())
-				.pipe(gulp.dest('dist'))
+				.pipe(gulp.dest('dist'))*/
 				.on('error', plugins.util.log)
 				.pipe(plugins.browserSync.stream())
 	);

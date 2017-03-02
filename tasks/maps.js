@@ -5,16 +5,18 @@ module.exports = (gulp, plugins) => {
 		'maps-watch',
 	], callback));
 
-	gulp.task('maps-browserify', () =>
-		gulp
-			.src('src/maps/templates/**/index.js')
-			.pipe(plugins.browserify({
-				insertGlobals: true,
-			}))
-			.on('error', plugins.util.log)
-			.pipe(gulp.dest('src/maps/dist'))
-			.pipe(plugins.browserSync.stream())
-	);
+	gulp.task('maps-browserify', () => {
+		const b = plugins.browserify({
+			entries: ['src/maps/templates/1/index.js'],
+			debug: true,
+		});
+
+		return b.bundle()
+			.pipe(plugins.browserify_source('index.js'))
+			.pipe(plugins.browserify_buffer())
+			.pipe(gulp.dest('src/maps/dist/1'))
+			.pipe(plugins.browserSync.stream());
+	});
 
 	gulp.task('maps-browserSync', () => {
 		plugins.browserSync.init({
