@@ -25,6 +25,12 @@ const done = {
 	b: false,
 };
 
+const stopped = {
+	x: false,
+	j: false,
+	b: false,
+};
+
 function update() {
 	if (!done.x || !done.j || !done.b) {
 		requestAnimationFrame(update);
@@ -55,7 +61,8 @@ function update() {
 		ctx.clearRect(x, y, 128, 128);
 		walk.update();
 		walk.draw(x, y);
-	} else {
+	} else if (!stopped.x) {
+		stopped.x = true;
 		ctx.clearRect(x, y, 128, 128);
 	}
 
@@ -63,7 +70,8 @@ function update() {
 		ctx.clearRect(j, k, 128, 128);
 		walk2.update();
 		walk2.draw(j, k);
-	} else {
+	} else if (!stopped.j) {
+		stopped.j = true;
 		ctx.clearRect(j, k, 128, 128);
 	}
 
@@ -71,7 +79,8 @@ function update() {
 		ctx.clearRect(b, n, 128, 128);
 		walk3.update();
 		walk3.draw(b, n);
-	} else {
+	} else if (!stopped.b) {
+		stopped.b = true;
 		ctx.clearRect(b, n, 128, 128);
 	}
 }

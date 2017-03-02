@@ -32,12 +32,22 @@ module.exports = (gulp, plugins) => {
 		});
 	});
 
+	gulp.task('dev-getMaps', () =>
+		gulp
+			.src('src/maps/dist/**/*.png')
+			.pipe(plugins.rename({ dirname: '' }))
+			.pipe(gulp.dest('src/game/dist/maps'))
+			.pipe(plugins.browserSync.stream())
+	);
+
 	gulp.task('dev-watch', () => {
 		gulp.watch('src/sass/**/*.scss', ['minify-sass']);
 		gulp.watch('src/game/scripts/**/*.js', () => series('minify-js', 'dev-browserify'));
+		gulp.watch('src/maps/dist/**/*.png', ['dev-getMaps']);
+		gulp.watch('src/game/**/*.html').on('change', plugins.browserSync.reload);
 	});
 
 	gulp.task('dev', (callback) => {
-		series('dev-clean', 'minify', 'dev-browserify', 'dev-browserSync', 'dev-watch', callback);
+		series('dev-clean', ['minify', 'dev-getMaps'], 'dev-browserify', 'dev-browserSync', 'dev-watch', callback);
 	});
 };
