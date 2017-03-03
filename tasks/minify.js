@@ -19,7 +19,7 @@ module.exports = function minify(gulp, plugins) {
 				/* .pipe(plugins.rename({
 					suffix: '.min',
 				})) */
-				.pipe(gulp.dest('src/game/dist'))
+				.pipe(gulp.dest('dist'))
 				.pipe(plugins.browserSync.stream())
 	);
 
@@ -29,7 +29,7 @@ module.exports = function minify(gulp, plugins) {
 				.pipe(plugins.babel({
 					presets: ['es2015'],
 				}))
-				.pipe(gulp.dest('src/game/dist/scripts'))
+				.pipe(gulp.dest('dist/scripts'))
 				/* .pipe(plugins.uglify())
 				.pipe(plugins.optimizeJs())
 				.pipe(plugins.rename({

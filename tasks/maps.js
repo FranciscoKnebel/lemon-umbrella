@@ -1,6 +1,9 @@
+/* eslint no-param-reassign: 0 */
+
 module.exports = (gulp, plugins) => {
 	gulp.task('maps', callback => plugins.runSequence([
 		'maps-browserify',
+		'maps-config',
 		'maps-browserSync',
 		'maps-watch',
 	], callback));
@@ -14,9 +17,19 @@ module.exports = (gulp, plugins) => {
 		return b.bundle()
 			.pipe(plugins.browserify_source('index.js'))
 			.pipe(plugins.browserify_buffer())
-			.pipe(gulp.dest('src/maps/dist/1'))
+			.pipe(gulp.dest('src/maps/dist'))
 			.pipe(plugins.browserSync.stream());
 	});
+
+	gulp.task('maps-config', () =>
+		gulp.src('src/maps/templates/**/*.json')
+			.pipe(plugins.rename((path) => {
+				path.basename = path.dirname;
+				path.dirname = '';
+			}))
+			.pipe(gulp.dest('src/game/maps'))
+			.pipe(plugins.browserSync.stream())
+	);
 
 	gulp.task('maps-browserSync', () => {
 		plugins.browserSync.init({
@@ -30,7 +43,7 @@ module.exports = (gulp, plugins) => {
 
 	gulp.task('maps-watch', () => {
 		gulp.watch('src/maps/globals/**/*.js', ['maps-browserify']);
-		gulp.watch('src/maps/templates/**/*.js', ['maps-browserify']);
+		gulp.watch('src/maps/templates/**/*.js', ['maps-browserify', 'maps-config']);
 		gulp.watch('src/maps/**/*').on('change', plugins.browserSync.reload);
 	});
 };

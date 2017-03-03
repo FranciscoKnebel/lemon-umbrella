@@ -1,12 +1,6 @@
-/// Toggle Button
-$em-toggle-background: #FFF;
-$em-toggle-border: #FFB7C5;
-$em-toggle-icon: #684B51;
+/// Background
+$default-background: #7fffd4;
 
 /// List item
 $em-list-background: #811453 #3C144F #952108 #362865 #9C2542 #0A7E8C #9F4576 #39A879 #712F2C #1A1FC6;
 $em-list-background-fallback: #9C2542;
-$em-list-color: $em-toggle-border;
-$em-list-color-fallback: $em-toggle-border;
-$em-list-border: $em-toggle-border;
-$em-list-border-fallback: $em-toggle-border;

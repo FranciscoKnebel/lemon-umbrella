@@ -3,94 +3,50 @@ const ctx = document.getElementById('canvas').getContext('2d');
 const Sprite = require('./sprite');
 const Animation = require('./animation');
 
+const mapConfig = require('../maps/1.json');
+
+const sidewalk1 = mapConfig.walking.horizontal[0];
+const sidewalk2 = mapConfig.walking.horizontal[1];
+
 const spritesheet = new Sprite('sprites/luigi.png', 256, 256);
-const walk = new Animation(ctx, spritesheet, 6, 0, 7);
+const character = new Animation(ctx, spritesheet, 6, 0, 7, 128, 128, sidewalk2);
+
+/* const spritesheet = new Sprite('sprites/spriteNE.png', 88, 144);
+const character = new Animation(ctx, spritesheet, 6, 0, 7, 44, 72, sidewalk2, true); */
 
 const spritesheet2 = new Sprite('sprites/luigi.png', 256, 256);
-const walk2 = new Animation(ctx, spritesheet2, 6, 0, 7);
+const character2 = new Animation(ctx, spritesheet2, 6, 0, 7, 128, 128, sidewalk1);
 
 const spritesheet3 = new Sprite('sprites/luigi.png', 256, 256);
-const walk3 = new Animation(ctx, spritesheet3, 6, 0, 7);
+const character3 = new Animation(ctx, spritesheet3, 6, 0, 7, 128, 128, sidewalk1);
 
-let x = 0;
-let	y = 0;
-let	j = 0;
-let	k = 0;
-let	b = 0;
-let	n = 0;
-
-const done = {
-	x: false,
-	j: false,
-	b: false,
-};
-
-const stopped = {
-	x: false,
-	j: false,
+const go = {
+	a: false,
 	b: false,
 };
 
 function update() {
-	if (!done.x || !done.j || !done.b) {
+	if (!character.done || !character2.done || !character3.done) {
 		requestAnimationFrame(update);
 	}
 
-	if (x > 728) {
-		x -= 1 * 0.5;
-		y += 1 * 0.29;
-	} else {
-		done.x = true;
+	character.move();
+
+	if (go.a) {
+		character2.move();
 	}
 
-	if (j > 728) {
-		j -= 1 * 0.5;
-		k += 1 * 0.29;
-	} else {
-		done.j = true;
-	}
-
-	if (b > 728) {
-		b -= 1 * 0.5;
-		n += 1 * 0.29;
-	} else {
-		done.b = true;
-	}
-
-	if (!done.x) {
-		ctx.clearRect(x, y, 128, 128);
-		walk.update();
-		walk.draw(x, y);
-	} else if (!stopped.x) {
-		stopped.x = true;
-		ctx.clearRect(x, y, 128, 128);
-	}
-
-	if (!done.j) {
-		ctx.clearRect(j, k, 128, 128);
-		walk2.update();
-		walk2.draw(j, k);
-	} else if (!stopped.j) {
-		stopped.j = true;
-		ctx.clearRect(j, k, 128, 128);
-	}
-
-	if (!done.b) {
-		ctx.clearRect(b, n, 128, 128);
-		walk3.update();
-		walk3.draw(b, n);
-	} else if (!stopped.b) {
-		stopped.b = true;
-		ctx.clearRect(b, n, 128, 128);
+	if (go.b) {
+		character3.move();
 	}
 }
 
-x = 1660;
-y = 385;
-
-j = 1378;
-k = 548;
-
-b = 1187;
-n = 660;
 update();
+
+setTimeout(() => {
+	go.a = true;
+}, 3000);
+
+setTimeout(() => {
+	go.b = true;
+}, 6000);
