@@ -1,6 +1,9 @@
 /* eslint max-len: 0 */
 
-module.exports = function Animation(ctx, sprite, frameSpeed, startFrame, endFrame, width, length, sidewalkConfig, reversed) {
+const reachedCrossing = require('./reachedCrossing');
+const instantiateSidewalk = require('./sidewalk');
+
+module.exports = function Animation(ctx, sprite, frameSpeed, startFrame, endFrame, width, length, sidewalkConfig, name, reversed) {
 	const animationSequence = [];  	// array holding the order of the animation
 	let currentFrame = 0;        		// the current frame to draw
 	let counter = 0;             		// keep track of frame rate
@@ -9,17 +12,14 @@ module.exports = function Animation(ctx, sprite, frameSpeed, startFrame, endFram
 		this.x = sidewalkConfig.endingPoint.x;
 		this.y = sidewalkConfig.endingPoint.y;
 
-		this.sidewalkConfig = {
-			startingPoint: sidewalkConfig.endingPoint,
-			endingPoint: sidewalkConfig.startingPoint,
-			ratio: { x: -sidewalkConfig.ratio.x, y: -sidewalkConfig.ratio.y },
-		};
+		this.sidewalkConfig = instantiateSidewalk(sidewalkConfig, true);
 	} else {
 		this.x = sidewalkConfig.startingPoint.x;
 		this.y = sidewalkConfig.startingPoint.y;
-		this.sidewalkConfig = sidewalkConfig;
+		this.sidewalkConfig = instantiateSidewalk(sidewalkConfig);
 	}
 
+	this.name = name;
 	this.done = false;
 	this.alive = true;
 
@@ -70,6 +70,15 @@ module.exports = function Animation(ctx, sprite, frameSpeed, startFrame, endFram
 			this.y += this.sidewalkConfig.ratio.y;
 		} else {
 			this.done = true;
+		}
+
+		for (const crossing of this.sidewalkConfig.crossings) {
+			if (!crossing.passed) {
+				if (reachedCrossing(this.x, this.y, crossing)) {
+					crossing.passed = true;
+					console.log(`${this.name} has just passed a crossing.`);
+				}
+			}
 		}
 
 		this.animate(this.x, this.y);

@@ -9,16 +9,16 @@ const sidewalk1 = mapConfig.walking.horizontal[0];
 const sidewalk2 = mapConfig.walking.horizontal[1];
 
 const spritesheet = new Sprite('sprites/luigi.png', 256, 256);
-const character = new Animation(ctx, spritesheet, 6, 0, 7, 128, 128, sidewalk2);
+const character = new Animation(ctx, spritesheet, 6, 0, 7, 128, 128, sidewalk2, 'Luigi');
 
 /* const spritesheet = new Sprite('sprites/spriteNE.png', 88, 144);
-const character = new Animation(ctx, spritesheet, 6, 0, 7, 44, 72, sidewalk2, true); */
+const character = new Animation(ctx, spritesheet, 6, 0, 7, 44, 72, sidewalk2, 'Fernando', true); */
 
 const spritesheet2 = new Sprite('sprites/luigi.png', 256, 256);
-const character2 = new Animation(ctx, spritesheet2, 6, 0, 7, 128, 128, sidewalk1);
+const character2 = new Animation(ctx, spritesheet2, 6, 0, 7, 128, 128, sidewalk1, 'Mario');
 
 const spritesheet3 = new Sprite('sprites/luigi.png', 256, 256);
-const character3 = new Animation(ctx, spritesheet3, 6, 0, 7, 128, 128, sidewalk1);
+const character3 = new Animation(ctx, spritesheet3, 6, 0, 7, 128, 128, sidewalk1, 'Patrick Hernandez');
 
 const go = {
 	a: false,
@@ -50,3 +50,7 @@ setTimeout(() => {
 setTimeout(() => {
 	go.b = true;
 }, 6000);
+
+document.getElementById('canvas').addEventListener('click', () => {
+	console.log({ x: character2.x, y: character2.y });
+});
